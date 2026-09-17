@@ -1,0 +1,40 @@
+plugins {
+    id("com.android.application")
+}
+
+android {
+    namespace = "com.chris.fluidhome"
+    compileSdk = 35
+    buildToolsVersion = "35.0.0"
+
+    defaultConfig {
+        applicationId = "com.chris.fluidhome"
+        minSdk = 34
+        targetSdk = 35
+        versionCode = providers.gradleProperty("buildNumber")
+            .map { 1000 + it.toInt() }
+            .getOrElse(1)
+        versionName = "0.1.0" + providers.gradleProperty("commitSha")
+            .map { "-${it.take(7)}" }
+            .getOrElse("-local")
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+        }
+    }
+
+    lint {
+        abortOnError = true
+    }
+}
+
+dependencies {
+    testImplementation("junit:junit:4.13.2")
+}
